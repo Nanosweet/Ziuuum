@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody rb;
-    private float i = 0;
+    //private float i = 0;
     [SerializeField] private float force = 0;
 
     private Vector3 startPos;
@@ -23,6 +23,10 @@ public class Player : MonoBehaviour
         //Naciskasz spacje force sie inkrementuje
 
         //Input.GetKey
+        if(Input.GetKey(KeyCode.K))
+        {
+            rb.velocity = transform.forward * force * Time.deltaTime;
+        }
         
         if(Input.GetKey(KeyCode.Space))
         {
