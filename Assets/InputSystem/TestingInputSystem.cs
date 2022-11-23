@@ -10,6 +10,8 @@ public class TestingInputSystem : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerInputActions playerInputActions;
 
+    [SerializeField] float speed = 5f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,7 +45,7 @@ public class TestingInputSystem : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 inputVector = playerInputActions.Player.Movement.ReadValue<Vector2>();
-        float speed = 1f;
+        
         rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * speed, ForceMode.Force);
     }   
 
