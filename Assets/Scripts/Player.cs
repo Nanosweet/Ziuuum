@@ -13,16 +13,22 @@ public class Player : MonoBehaviour
     bool stoi = false;
     public float stopVelocity;
 
+    public GameObject mCamera;
+
+
+    Color c1 = Color.black;
+    Color c2 = Color.red;
+
 
 
     // LINERENDERER
-    [SerializeField] LineRenderer lr;
+    [SerializeField] LineRenderer aimLine, dirLine;
 
     // Start is called before the first frame update
     void Start()
     {        
         rb = GetComponent<Rigidbody>();
-        lr.enabled = false;
+        aimLine.enabled = false;
         rb.freezeRotation = false;
         rb.velocity = Vector3.zero;
     }
@@ -31,14 +37,20 @@ public class Player : MonoBehaviour
     void Update()
     {
         if(Input.GetKey(KeyCode.Mouse0))
-        {
-            lr.SetPosition(1, ClickedPoint());
-        }
-        //lr.SetPosition(1, ClickedPoint());
+       {
+           aimLine.SetPosition(1, ClickedPoint());
+       }
+        //aimLine.SetPosition(1, ClickedPoint());
+
+        dirLine.SetColors(c1,c2);
+
+        dirLine.SetPosition(0, rb.transform.position );
+
+        var x = ClickedPoint();
+        Vector3 dir2 = GetComponent<Rigidbody>().position - x;
 
 
-
-        Debug.Log("rb.velocity:" + rb.velocity.magnitude);
+        dirLine.SetPosition(1, dir2);
     }
 
     private void FixedUpdate()
@@ -61,6 +73,7 @@ public class Player : MonoBehaviour
     {
         Vector3 position = Vector3.zero; // zmienna position = 0,0,0
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition); // castowanie ray od kamery do pozycji myczy na ekranie
+        
 
         RaycastHit hit = new RaycastHit();
 
@@ -76,9 +89,9 @@ public class Player : MonoBehaviour
         Vector3 startPos = ClickedPoint();
         // Kierunek = pozycja gracza - pozycja myszy
         Vector3 dir = GetComponent<Rigidbody>().position - startPos;
-        lr.enabled = true;
 
-        lr.SetPosition(0, rb.transform.position);
+        aimLine.enabled = true;
+        aimLine.SetPosition(0, rb.transform.position);
         
         //lr.SetPosition(0, GetComponent<Rigidbody>().position);
         //lr.SetPosition(1, startPos);
@@ -86,7 +99,7 @@ public class Player : MonoBehaviour
     private void OnMouseUp()
     {
         Vector3 endPos = ClickedPoint();
-        lr.enabled = false;
+        aimLine.enabled = false;
         rb.freezeRotation = false;
 
         Vector3 dir = GetComponent<Rigidbody>().position - endPos;
