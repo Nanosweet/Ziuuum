@@ -6,110 +6,92 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     private Rigidbody rb;
-    [SerializeField] private float force = 0f;
-
-    private Vector3 startPos;
+    [SerializeField] private float force = 0f;   
 
     [SerializeField] Text currentTime;
 
+    bool stoi = false;
+    public float stopVelocity;
+
+
+
+    // LINERENDERER
+    [SerializeField] LineRenderer lr;
+
     // Start is called before the first frame update
     void Start()
-    {
+    {        
         rb = GetComponent<Rigidbody>();
-        startPos = transform.position;
-
-        Debug.DrawLine(Vector3.zero, new Vector3(5, 0, 0), Color.white, 2.5f);
+        lr.enabled = false;
+        rb.freezeRotation = false;
+        rb.velocity = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Naciskasz spacje force sie inkrementuje
-
-        //Input.GetKey
-
-        //if(currentTime.text == "0")
-        //{
-        //    rb.AddForce(0,0, 2000 * Time.deltaTime);
-        //}
-
-        
-
-        //if(Input.GetKey(KeyCode.K))
-        //{
-        //    rb.velocity = transform.forward * force * Time.deltaTime;
-        //}
-        
-        //if(Input.GetKey(KeyCode.Space))
-        //{
-        //    force++;            
-        //}
-        //if(Input.GetKeyUp(KeyCode.Space))
-        //{
-        //    rb.AddForce(transform.forward * force * 5 * Time.deltaTime, ForceMode.Impulse);
-        //    Debug.Log("Klikles spacje " + force);
-        //}
-        //if(Input.GetKeyUp(KeyCode.G))
-        //{
-        //    transform.position = startPos;
-        //    rb.AddForce(0,0,0);
-        //}
-
-        
-
-        //Debug.DrawLine(Vector3.zero, Vector3.forward * 100);
-        if (Physics.Raycast(Vector3.zero, Vector3.forward, Mathf.Infinity))
+        if(Input.GetKey(KeyCode.Mouse0))
         {
-            print("There is something in front of the object!");
+            lr.SetPosition(1, ClickedPoint());
         }
+        //lr.SetPosition(1, ClickedPoint());
 
-        Debug.Log(rb.velocity+"<<rb.velodity");
+
+
+        Debug.Log("rb.velocity:" + rb.velocity.magnitude);
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKey(KeyCode.S)|| rb.velocity.magnitude < stopVelocity)
         {
-            force = 5f;
-            rb.AddForce(transform.forward * force, ForceMode.Impulse);
-            
-            //ClickedPoint();
+            Stop();
         }
-        if (Input.GetKeyUp(KeyCode.G))
-        {
-            //rb.AddForce(transform.forward * force, ForceMode.Impulse);
-            force = 0;
-            //ClickedPoint();
-        }
-
+    }
+    private void Stop()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        stoi = true;
     }
 
 
+    // Pozycja myczy
     Vector3 ClickedPoint()
     {
         Vector3 position = Vector3.zero; // zmienna position = 0,0,0
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition); // castowanie ray od kamery do pozycji myczy
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition); // castowanie ray od kamery do pozycji myczy na ekranie
 
         RaycastHit hit = new RaycastHit();
+
         if(Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             position = hit.point;
-        }
-        Debug.Log("positgion" + position);
+        }        
         return position;
     }
 
     private void OnMouseDown()
     {
         Vector3 startPos = ClickedPoint();
-        Debug.Log("Metoda OnMouseDown>>" + startPos + "<<startPos");
+        // Kierunek = pozycja gracza - pozycja myszy
+        Vector3 dir = GetComponent<Rigidbody>().position - startPos;
+        lr.enabled = true;
+
+        lr.SetPosition(0, rb.transform.position);
+        
+        //lr.SetPosition(0, GetComponent<Rigidbody>().position);
+        //lr.SetPosition(1, startPos);
     }
     private void OnMouseUp()
     {
         Vector3 endPos = ClickedPoint();
-        Debug.Log("Metoda OnMouseUp>>" + endPos + "<<endPos");
-    }
+        lr.enabled = false;
+        rb.freezeRotation = false;
 
+        Vector3 dir = GetComponent<Rigidbody>().position - endPos;
+        GetComponent<Rigidbody>().AddForce(dir * 1f, ForceMode.Impulse);
+    }
 
 
 
