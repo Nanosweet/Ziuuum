@@ -51,6 +51,8 @@ public class Player : MonoBehaviour
 
 
         dirLine.SetPosition(1, dir2);
+
+        Debug.Log(rb.velocity.magnitude );
     }
 
     private void FixedUpdate()
@@ -64,6 +66,9 @@ public class Player : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+        
+
+        
         stoi = true;
     }
 
@@ -76,6 +81,8 @@ public class Player : MonoBehaviour
         
 
         RaycastHit hit = new RaycastHit();
+
+        
 
         if(Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
@@ -99,11 +106,15 @@ public class Player : MonoBehaviour
     private void OnMouseUp()
     {
         Vector3 endPos = ClickedPoint();
+        float force = Vector3.Distance(rb.transform.position, endPos);
         aimLine.enabled = false;
         rb.freezeRotation = false;
+        
 
         Vector3 dir = GetComponent<Rigidbody>().position - endPos;
-        GetComponent<Rigidbody>().AddForce(dir * 1f, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.Impulse);
+
+        //Debug.Log("Pierdolniecie: "+ rb.velocity );
     }
 
 
