@@ -42,15 +42,15 @@ public class Player : MonoBehaviour
        }
         //aimLine.SetPosition(1, ClickedPoint());
 
-        dirLine.SetColors(c1,c2);
+        //dirLine.SetColors(c1,c2);
 
-        dirLine.SetPosition(0, rb.transform.position );
+        //dirLine.SetPosition(0, rb.transform.position );
 
         var x = ClickedPoint();
         Vector3 dir2 = GetComponent<Rigidbody>().position - x;
 
 
-        dirLine.SetPosition(1, dir2);
+        //dirLine.SetPosition(1, dir2);
 
         Debug.Log(rb.velocity.magnitude );
     }
@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
         Vector3 startPos = ClickedPoint();
         // Kierunek = pozycja gracza - pozycja myszy
         Vector3 dir = GetComponent<Rigidbody>().position - startPos;
+
+        //Transform aimStartPos = rb.transform.position.x;
+        
 
         aimLine.enabled = true;
         aimLine.SetPosition(0, rb.transform.position);
