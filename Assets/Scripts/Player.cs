@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         
+        
 
         
        // stoi = true;
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
         
 
         Vector3 dir = GetComponent<Rigidbody>().position - endPos;
-        //GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.Impulse);
 
         //Debug.Log("Pierdolniecie: "+ rb.velocity );
     }
