@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] Text currentTime;
 
 
-    float _lineZPos = -1f;
-    float _lineYPos = 0.3f;
+    float _lineZPos = -0.3f;
+    float _lineYPos = 0.1f;
 
     bool stoi = false;
     public float stopVelocity;
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
 
     Color c1 = Color.black;
-    Color c2 = Color.red;
+    Color c2 = Color.red;    
 
 
 
@@ -49,32 +49,34 @@ public class Player : MonoBehaviour
 
         // Aim Linerenderer index 0 coordinates position
         Vector3 aimLineIndex0 = new Vector3(rb.transform.position.x, _lineYPos, rb.transform.position.z);
-        Vector3 aimLineIndex1 = new Vector3(mousePos.x, _lineYPos, mousePos.z);
+        Vector3 aimLineIndex1 = new Vector3(mousePos.x, mousePos.z, _lineZPos);
         Vector3 aimLineIndex1v2 = new Vector3(dir2.x, _lineYPos, dir2.z);
-        aimLine.SetPosition(0, aimLineIndex0);
+        //aimLine.enabled = true;
+        //aimLine.SetPosition(0, new Vector3(rb.position.x, rb.position.z, _lineZPos));
 
         
 
-        if(Input.GetKey(KeyCode.Mouse0))
-       {
-           aimLine.SetPosition(1, -mousePos);
-       }
+       // if(Input.GetKey(KeyCode.Mouse0))
+      // {
+        //  aimLine.SetPosition(1, -mousePos);
+       //}
         //aimLine.SetPosition(1, ClickedPoint());
 
         //dirLine.SetColors(c1,c2);
 
         //dirLine.SetPosition(0, rb.transform.position );
+        aimLine.SetPosition(1, aimLineIndex1);
         
 
         //aimLine.SetPosition(0, new Vector3(rb.transform.position.x, _lineYPos, rb.transform.position.z));
-        aimLine.SetPosition(1, dir2);
+        //aimLine.SetPosition(1, new Vector3(mousePos.x, mousePos.z, _lineZPos));
 
         
 
 
         //dirLine.SetPosition(1, dir2);
 
-        Debug.Log("rb.velo:"+rb.velocity.magnitude);
+        Debug.Log("rb.velo:"+mousePos);
     }
 
     private void FixedUpdate()
@@ -121,7 +123,7 @@ public class Player : MonoBehaviour
         
 
         aimLine.enabled = true;
-        aimLine.SetPosition(0, rb.transform.position);
+        aimLine.SetPosition(0, new Vector3(rb.position.x, rb.position.z, _lineZPos));
         
         //lr.SetPosition(0, GetComponent<Rigidbody>().position);
         //lr.SetPosition(1, startPos);
