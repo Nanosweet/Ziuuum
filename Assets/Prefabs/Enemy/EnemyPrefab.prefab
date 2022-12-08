@@ -145,6 +145,7 @@ MonoBehaviour:
   - {fileID: 3324215619109582731}
   - {fileID: 3324215618258732879}
   _enemyMoveSpeed: 1
+  exploOnDeath: {fileID: 4165710715316216598, guid: dab75785fea4bc9458c9b174c704c9cd, type: 3}
 --- !u!1 &3324215619109582732
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +188,7 @@ GameObject:
   - component: {fileID: 3324215619920473680}
   m_Layer: 0
   m_Name: EnemyPrefab
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

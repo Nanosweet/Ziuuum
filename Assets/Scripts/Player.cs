@@ -5,38 +5,32 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
+    [Header("Player Settings")]
+
     private Rigidbody rb;
-    [SerializeField] private float force = 0f;   
+    public float stopVelocity;
+    [SerializeField] private float _playerForce = 0f;    
 
-    [SerializeField] Text currentTime;
 
-
-    float _lineZPos = -0.3f;
-    float _lineYPos = 0.1f;
+    [SerializeField] LineRenderer aimLine;
+    private float _lineZPos = -0.3f;
+    private float _lineYPos = 0.1f;
 
     bool stoi = false;
-    public float stopVelocity;
+    
+    [SerializeField] Text currentTime;
 
-    public GameObject mCamera;
-
-    [SerializeField] Transform playerPos;
-
-
-    Color c1 = Color.black;
-    Color c2 = Color.red;    
-
-
-
-    // Linerenderer
-    [SerializeField] LineRenderer aimLine, dirLine;
+    
+    
 
     // Start is called before the first frame update
     void Start()
     {        
         rb = GetComponent<Rigidbody>();
         aimLine.enabled = false;
-        rb.freezeRotation = false;
-        rb.velocity = Vector3.zero;
+        //rb.freezeRotation = false;
+        //rb.velocity = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -50,51 +44,20 @@ public class Player : MonoBehaviour
         // Aim Linerenderer index 0 coordinates position
         Vector3 aimLineIndex0 = new Vector3(rb.transform.position.x, _lineYPos, rb.transform.position.z);
         Vector3 aimLineIndex1 = new Vector3(mousePos.x, mousePos.z, _lineZPos);
-        Vector3 aimLineIndex1v2 = new Vector3(dir2.x, _lineYPos, dir2.z);
-        //aimLine.enabled = true;
-        //aimLine.SetPosition(0, new Vector3(rb.position.x, rb.position.z, _lineZPos));
-
-        
-
-       // if(Input.GetKey(KeyCode.Mouse0))
-      // {
-        //  aimLine.SetPosition(1, -mousePos);
-       //}
-        //aimLine.SetPosition(1, ClickedPoint());
-
-        //dirLine.SetColors(c1,c2);
-
-        //dirLine.SetPosition(0, rb.transform.position );
         aimLine.SetPosition(1, aimLineIndex1);
-        
-
-        //aimLine.SetPosition(0, new Vector3(rb.transform.position.x, _lineYPos, rb.transform.position.z));
-        //aimLine.SetPosition(1, new Vector3(mousePos.x, mousePos.z, _lineZPos));
-
-        
-
-
-        //dirLine.SetPosition(1, dir2);
-
-        Debug.Log("rb.velo:"+mousePos);
     }
 
     private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.S)|| rb.velocity.magnitude < stopVelocity)
         {
-            Stop();
+            BallStopMoving();
         }
     }
-    private void Stop()
+    private void BallStopMoving()
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        
-        
-
-        
-       // stoi = true;
     }
 
 
@@ -116,30 +79,22 @@ public class Player : MonoBehaviour
     private void OnMouseDown()
     {
         Vector3 startPos = ClickedPoint();
-        // Kierunek = pozycja gracza - pozycja myszy
-        Vector3 dir = GetComponent<Rigidbody>().position - startPos;
-
-        //Transform aimStartPos = rb.transform.position.x;
-        
+        // Kierunek = pozycja gracza - pozycja myszy      
 
         aimLine.enabled = true;
         aimLine.SetPosition(0, new Vector3(rb.position.x, rb.position.z, _lineZPos));
-        
-        //lr.SetPosition(0, GetComponent<Rigidbody>().position);
-        //lr.SetPosition(1, startPos);
+
     }
     private void OnMouseUp()
     {
         Vector3 endPos = ClickedPoint();
-        float force = Vector3.Distance(rb.transform.position, endPos);
-        aimLine.enabled = false;
-        rb.freezeRotation = false;
+        float _playerForce = Vector3.Distance(rb.transform.position, endPos);
+        //aimLine.enabled = false;
+       //rb.freezeRotation = false;
         
 
         Vector3 dir = GetComponent<Rigidbody>().position - endPos;
-        GetComponent<Rigidbody>().AddForce(dir * force, ForceMode.Impulse);
-
-        //Debug.Log("Pierdolniecie: "+ rb.velocity );
+        GetComponent<Rigidbody>().AddForce(dir * _playerForce, ForceMode.Impulse );
     }
 
 

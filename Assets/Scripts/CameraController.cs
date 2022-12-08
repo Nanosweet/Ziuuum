@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     {
        // if (Input.GetKey(KeyCode.G))
         //{
-            offset = new Vector3(0, 10, -13);
+            offset = new Vector3(0, 23, -28);
             Vector3 desiredPosition = playerPos.position + offset;
             //Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = desiredPosition;
