@@ -10,16 +10,15 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = playerPos.position;
-        
+        transform.position = playerPos.position;        
     }
 
     // Update is called once per frame
     void Update()
     {
-       // if (Input.GetKey(KeyCode.G))
+        // if (Input.GetKey(KeyCode.G))
         //{
-            offset = new Vector3(0, 23, -28);
+        //offset = new Vector3(0,12,-12);
             Vector3 desiredPosition = playerPos.position + offset;
             //Vector3 smoothedPos = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.position = desiredPosition;
